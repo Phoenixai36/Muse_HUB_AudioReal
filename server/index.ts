@@ -39,6 +39,14 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  try {
+    // Ejecutar migraciones e inicializar la base de datos
+    await runMigrations();
+    await initializeDatabase();
+  } catch (error) {
+    console.error("Error al inicializar la base de datos:", error);
+  }
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

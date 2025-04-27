@@ -228,11 +228,13 @@ export const comments = pgTable("comments", {
   userId: integer("user_id").notNull().references(() => users.id),
   content: text("content").notNull(),
   attachmentUrl: text("attachment_url"), // For attaching images or other media
-  parentId: integer("parent_id").references(() => comments.id), // For comment threads
+  parentId: integer("parent_id"), // For comment threads - we'll add the reference later
   reactionCount: jsonb("reaction_count").default({}), // Count of emoji reactions
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Add foreign key reference to parent comment after table definition
+// This avoids circular reference issues
 export const commentsRelations = relations(comments, ({ one, many }) => ({
   musicShare: one(musicShares, {
     fields: [comments.musicShareId],
@@ -245,8 +247,9 @@ export const commentsRelations = relations(comments, ({ one, many }) => ({
   parent: one(comments, {
     fields: [comments.parentId],
     references: [comments.id],
+    relationName: "parentChild",
   }),
-  replies: many(comments),
+  replies: many(comments, { relationName: "parentChild" }),
 }));
 
 export const insertCommentSchema = createInsertSchema(comments).pick({
