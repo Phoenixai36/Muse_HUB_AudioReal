@@ -5,6 +5,16 @@ import { runMigrations } from "./db";
 import { initializeDatabase } from "./storage";
 
 const app = express();
+
+import rateLimit from 'express-rate-limit';
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100 // límite de 100 requests por ventana por IP
+});
+
+app.use(limiter);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

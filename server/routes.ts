@@ -38,8 +38,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Remove confirmPassword before storing
       const { confirmPassword, ...userToCreate } = validatedUser;
       
-      // In a real app, we would hash the password here
-      const newUser = await storage.createUser(userToCreate);
+      const bcrypt = require('bcrypt');
+      const hashedPassword = await bcrypt.hash(userToCreate.password, 10);
+      const newUser = await storage.createUser({
+        ...userToCreate,
+        password: hashedPassword
+      });
       
       // Don't return the password
       const { password, ...userWithoutPassword } = newUser;
