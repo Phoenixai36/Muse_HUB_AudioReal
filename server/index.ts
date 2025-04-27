@@ -3,10 +3,13 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { runMigrations } from "./db";
 import { initializeDatabase } from "./storage";
+import rateLimit from 'express-rate-limit';
 
 const app = express();
 
-import rateLimit from 'express-rate-limit';
+// Configurar trust proxy para resolver problemas con X-Forwarded-For
+// Es crítico que esto se establezca ANTES de usar el rate limiter
+app.set('trust proxy', 1);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos

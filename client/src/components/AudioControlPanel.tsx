@@ -37,8 +37,8 @@ export default function AudioControlPanel({ onClose }: AudioControlPanelProps) {
     console.log('Audio settings:', {
       vocals,
       instrumentals,
-      effects,
-      effects: {
+      effectsLevel: effects,
+      effectsConfig: {
         glitch: glitchEnabled,
         reverb: reverbEnabled,
         distortion: distortionEnabled,
