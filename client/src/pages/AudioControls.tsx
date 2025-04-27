@@ -37,8 +37,8 @@ export default function AudioControls() {
     console.log('Audio settings:', {
       vocals,
       instrumentals,
-      effects,
-      effects: {
+      effectsLevel: effects,
+      effectsEnabled: {
         glitch: glitchEnabled,
         reverb: reverbEnabled,
         distortion: distortionEnabled,

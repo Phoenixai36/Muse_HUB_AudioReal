@@ -34,19 +34,21 @@ export default function Sidebar() {
       <nav className="flex-1 px-3 py-4">
         <div className="space-y-2">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <a 
-                className={cn(
-                  "flex items-center px-3 py-2 rounded-lg transition",
-                  location === item.href
-                    ? "text-primary bg-primary/20 border-l-4 border-primary"
-                    : "text-muted-foreground hover:bg-primary/10"
-                )}
-              >
-                <item.icon className="mr-3 h-5 w-5" />
-                <span>{item.label}</span>
-              </a>
-            </Link>
+            <div key={item.href}>
+              <Link href={item.href}>
+                <button
+                  className={cn(
+                    "flex items-center w-full text-left px-3 py-2 rounded-lg transition",
+                    location === item.href
+                      ? "text-primary bg-primary/20 border-l-4 border-primary"
+                      : "text-muted-foreground hover:bg-primary/10"
+                  )}
+                >
+                  <item.icon className="mr-3 h-5 w-5" />
+                  <span>{item.label}</span>
+                </button>
+              </Link>
+            </div>
           ))}
         </div>
         
